@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Azoom car rental websites</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.cdnfonts.com/css/graphik-trial"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      @import url("https://fonts.cdnfonts.com/css/graphik-trial");
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container-fluid {
+        margin: 0;
+      }
+      .navbar.navbar-default {
+        background-color: teal;
+        margin: 0;
+      }
+      .navbar-brand.navbar-brand {
+        /* Azoom website name */
+        color: white;
+        font-size: 20px;
+        font-family: "Graphik Wide Trial", sans-serif;
+      }
+      .navbar.navbar-default li a {
+        color: white;
+        font-size: 18px;
+      }
+      .navbar.navbar-default ul {
+        background-color: teal;
+      }
+      /* Additional styling for the logo */
+      .navbar-brand img {
+        max-width: 70px; /* Adjust the max-width as needed to make it smaller */
+        height: auto; /* Ensures proportional scaling */
+        display: inline-block;
+        margin-right: 5px; /* Adjust the margin as needed */
+        vertical-align: middle;
+      }
+
+      .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
+      }
+      /*the container must be positioned relative:*/
+      .autocomplete {
+        position: relative;
+        display: inline-block;
+      }
+
+      input {
+        border: 1px solid transparent;
+        background-color: #f1f1f1;
+        padding: 10px;
+        font-size: 20px;
+      }
+
+      input[type="text"] {
+        background-color: #f1f1f1;
+        font-size: 16px; /* Smaller font size */
+      }
+
+      input[type="submit"] {
+        background-color: teal;
+        color: #fff;
+        cursor: pointer;
+        width: 100%; /* Full width */
+      }
+
+      .autocomplete-items {
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        /*position the autocomplete items to be the same width as the container:*/
+        top: 100%;
+        left: 0;
+        right: 0;
+      }
+
+      .autocomplete-items div {
+        padding: 10px;
+        cursor: pointer;
+        background-color: #fff;
+        border-bottom: 1px solid #d4d4d4;
+      }
+
+      /*when hovering an item:*/
+      .autocomplete-items div:hover {
+        background-color: #e9e9e9;
+      }
+
+      /*when navigating through the items using the arrow keys:*/
+      .autocomplete-active {
+        background-color: DodgerBlue !important;
+        color: #ffffff;
+      }
+      .background-img-responsive {
+        width: 100%;
+        height: 65vh;
+        background-image: url("background-copy2.jpg");
+        background-size: cover; /* Set background-size to cover */
+        background-position: center center; /* Center the background image */
+        background-repeat: no-repeat; /* Prevent background image from repeating */
+      }
+      * {
+        box-sizing: border-box;
+      }
+
+      .row {
+        display: -ms-flexbox; /* IE10 */
+        display: flex;
+        -ms-flex-wrap: wrap; /* IE10 */
+        flex-wrap: wrap;
+        margin: 0 -16px;
+      }
+
+      .col-25 {
+        -ms-flex: 25%; /* IE10 */
+        flex: 25%;
+      }
+
+      .col-50 {
+        -ms-flex: 50%; /* IE10 */
+        flex: 50%;
+      }
+
+      .col-75 {
+        -ms-flex: 75%; /* IE10 */
+        flex: 75%;
+      }
+
+      .col-25,
+      .col-50,
+      .col-75 {
+        padding: 0 16px;
+      }
+
+      .container {
+        background-color: #f2f2f2;
+        padding: 5px 20px 15px 20px;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+
+      label {
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      .btn {
+        background-color: #04aa6d;
+        color: white;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        width: 100%;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 17px;
+      }
+
+      .btn:hover {
+        background-color: #45a049;
+      }
+
+      a {
+        color: #2196f3;
+      }
+
+      hr {
+        border: 1px solid lightgrey;
+      }
+
+      span.price {
+        float: right;
+        color: grey;
+      }
+      /* Change the size of the placeholder text for input elements */
+      input::placeholder {
+        font-size: 16px; /* Adjust the font size as needed */
+      }
+
+      /* On smaller screens, decrease text size */
+      @media only screen and (max-width: 800px) {
+        #companyName,
+        .navbar.navbar-default li a {
+          color: white;
+          font-size: 14px;
+        }
+        .navbar-brand img {
+          max-width: 45px; /* Adjust the max-width as needed to make it smaller */
+          height: auto; /* Ensures proportional scaling */
+          display: inline-block;
+          margin-right: 5px; /* Adjust the margin as needed */
+          vertical-align: middle;
+        }
+        .row {
+          flex-direction: column-reverse;
+        }
+        .col-25 {
+          margin-bottom: 20px;
+        }
+        input::placeholder {
+          font-size: 12px; /* Adjust the font size as needed */
+        }
+        input[type="text"] {
+          font-size: 12px; /* Smaller font size */
+          padding: 8px; /* Reduce padding */
+        }
+        .btn {
+          padding: 6px; /* Smaller padding */
+          font-size: 12px; /* Smaller font size */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">
+            <img src="car_logo_white.png" alt="Azoom" /><span id="companyName"
+              >Azoom</span
+            >
+          </a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="user_about.html">About</a></li>
+          <li><a href="user_pricing.html">Pricing</a></li>
+          <li><a href="user_contactUs.html">Contact Us</a></li>
+          <li><a href="User_create_or_login_account.html">My Account</a></li>
+          <li><a href="index.html" onclick="confirmLogout()">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <h2 style="text-align: center;">Reservation Details</h2>
+    <div class="container">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Customer ID</th>
+              <th>Car Brand</th>
+              <th>Rental Date</th>
+              <th>Rental Time</th>
+              <th>Location</th>
+              <th>Return Date</th>
+              <th>Return Time</th>
+              <th colspan="10">On Rent Status</th>
+              <th colspan="10">Returned Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>123456</td>
+              <td>2017 Audi A6</td>
+              <td>2023-11-01</td>
+              <td>Choa Chu Kang</td>
+              <td>8:00 am</td>
+              <td>22023-11-01</td>
+              <td>7:00 pm</td>
+
+              <td colspan="10">
+                <form id="statusUpdateForm">
+                  <input
+                    type="text"
+                    id="statusInput"
+                    placeholder="Enter code"
+                  />
+                  <button
+                    type="button"
+                    onclick="updateStatus()"
+                    class="btn btn-primary"
+                  >
+                    Update Status
+                  </button>
+                </form>
+              </td>
+
+              <td colspan="10">
+                <form id="returnedStatusUpdateForm">
+                  <input
+                    type="text"
+                    id="returnedStatusInput"
+                    placeholder="Enter code"
+                  />
+                  <button
+                    type="button"
+                    onclick="updateReturnedStatus()"
+                    class="btn btn-primary"
+                  >
+                    Update Returned Status
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-75" id="rentalChargesDiv" style="display: none;">
+        <div class="container" style="max-height: 65vh; overflow-y: auto;">
+          <h4 style="font-weight: bold;">
+            Rental Charges
+            <span class="price" style="color: black;"
+              ><i class="fa fa-shopping-cart"></i
+            ></span>
+          </h4>
+          <p>No. of hour <span class="price">11</span></p>
+          <p>Charge per hour <span class="price">$16</span></p>
+          <p>Vehical damages:</p>
+          <p>- nil<span class="price">$0</span></p>
+          <hr />
+          <p>
+            Total <span class="price" style="color: black;"><b>$176</b></span>
+          </p>
+          <input
+            type="submit"
+            value="Confirm Payment"
+            onclick="ConfirmPayment()"
+            class="btn"
+          />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript function to update the status based on input
+      function updateStatus() {
+        // Get the input value
+        var code = document.getElementById("statusInput").value;
+
+        // Find the cell that should be updated (in this example, we'll update the first row's status)
+        var statusCell = document.querySelector(
+          "tbody tr:first-child td:nth-child(9)"
+        );
+
+        if (statusCell) {
+          // Map the hardcoded codes to statuses
+          var status;
+          if (code === "wwww") {
+            status = "On Rent";
+
+            // Hide the input elements
+            var form = document.getElementById("statusUpdateForm");
+            form.style.display = "none";
+          } else {
+            // Handle unknown code
+            status = "";
+            form.style.display = "block";
+          }
+
+          // Update the "Status" cell with the mapped status
+          statusCell.textContent = status;
+        }
+
+        // Reset the input field
+        document.getElementById("statusInput").value = "";
+      }
+
+      function updateReturnedStatus() {
+        // Get the input value
+        var code = document.getElementById("returnedStatusInput").value;
+
+        // Find the cell that should be updated (in this example, we'll update the first row's "Returned Status")
+        var returnedStatusCell = document.querySelector(
+          "tbody tr:first-child td:nth-child(10)"
+        );
+
+        if (returnedStatusCell) {
+          // Map the hardcoded codes to statuses
+          var status;
+          if (code === "hhhh") {
+            status = "Returned";
+
+            // Hide the input elements
+            var form = document.getElementById("returnedStatusUpdateForm");
+            form.style.display = "none";
+
+            // Show the "Rental Charges" div
+            var rentalChargesDiv = document.getElementById("rentalChargesDiv");
+            rentalChargesDiv.style.display = "block";
+          } else {
+            // Handle unknown code
+            status = "";
+            form.style.display = "block";
+          }
+
+          // Update the "Returned Status" cell with the mapped status
+          returnedStatusCell.textContent = status;
+        }
+
+        // Reset the input field
+        document.getElementById("returnedStatusInput").value = "";
+      }
+      function ConfirmPayment() {
+        var confirmation = confirm("Confirm payment ?");
+        if (confirmation) {
+          var code = prompt("Please key in the code sent to your email");
+          if (code) {
+            // The user provided a code
+            // You can perform further actions with the 'code' variable
+            alert(
+              "Payment Successful! A E-receipt has been sent to your email."
+            );
+            window.location.href =
+              "After_Customer_Created_N_Logged_into_Account.html";
+          } else {
+            // The user canceled the code input
+            alert("Payment confirmation canceled.");
+          }
+        } else {
+          // The user clicked Cancel in the confirmation dialog
+          alert("Payment confirmation canceled.");
+        }
+      }
+      function confirmLogout() {
+        var confirmation = confirm("Confirm logout ?");
+        if (confirmation) {
+            window.location.href =
+              "index.html";
+          }
+      }
+    </script>
+  </body>
+</html>

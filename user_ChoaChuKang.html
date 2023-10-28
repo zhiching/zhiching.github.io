@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Azoom car rental websites</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.cdnfonts.com/css/graphik-trial"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      @import url("https://fonts.cdnfonts.com/css/graphik-trial");
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container-fluid {
+        margin: 0;
+      }
+      .navbar.navbar-default {
+        background-color: teal;
+        margin: 0;
+      }
+      .navbar-brand.navbar-brand {
+        color: white;
+        font-size: 20px;
+        font-family: "Graphik Wide Trial", sans-serif;
+      }
+      .navbar.navbar-default li a {
+        color: white;
+        font-size: 18px;
+      }
+      .navbar.navbar-default ul {
+        background-color: teal;
+      }
+      .navbar-brand img {
+        max-width: 70px;
+        height: auto;
+        display: inline-block;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+      .dropdown-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+      }
+      .dropdown {
+        margin-right: 10px;
+        position: relative;
+        display: inline-block;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+      .dropdown.dropdown-menu {
+        display: block;
+      }
+      .dropdown-menu a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      .dropdown-menu a:hover {
+        background-color: #ddd;
+      }
+      #selected_location {
+        text-align: center;
+        color: #008080;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        font-size: 16px;
+        text-align: center;
+        margin-top: 50px;
+      }
+      .flex-item {
+        background-color: #f1f1f1;
+        padding: 10px;
+        flex: calc(33.33% - 20px);
+        box-sizing: border-box;
+        max-width: 33.33%;
+        margin-bottom: 20px;
+      }
+      .flex-item img {
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+      }
+      @media (max-width: 800px) {
+        .flex-item {
+          flex: calc(50% - 20px);
+        }
+        .flex-item figcaption {
+          font-size: 12px;
+        }
+        .dropdown-container {
+          flex-direction: column;
+          align-items: center;
+        }
+        .dropdown {
+          margin-bottom: 10px;
+        }
+        #companyName,
+        .navbar.navbar-default li a {
+          color: white;
+          font-size: 14px;
+        }
+        .navbar-brand img {
+          max-width: 45px; /* Adjust the max-width as needed to make it smaller */
+          height: auto; /* Ensures proportional scaling */
+          display: inline-block;
+          margin-right: 5px; /* Adjust the margin as needed */
+          vertical-align: middle;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">
+            <img src="car_logo_white.png" alt="Azoom" /><span id="companyName"
+              >Azoom</span
+            >
+          </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="user_about.html">About</a></li>
+          <li><a href="user_pricing.html">Pricing</a></li>
+          <li><a href="user_contactUs.html">Contact Us</a></li>
+          <li><a href="Customer_Details.html">My Account</a></li>
+          <li><a href="index.html">Logout</a></li>
+          <li><a href="index.html" onclick="confirmLogout">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div>
+      <h3 id="selected_location">
+        Location selected: Choa Chu Kang , Singapore
+      </h3>
+    </div>
+    <div class="dropdown-container">
+      <div class="dropdown">
+        <select
+          id="brandDropdown"
+          class="btn btn-primary"
+          style="background-color: teal;"
+        >
+          <option value="" disabled selected>Select a brand</option>
+          <option value="Audi">Audi</option>
+          <option value="Honda">Honda</option>
+          <option value="Nissan">Nissan</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select
+          id="availabilityDropdown"
+          class="btn btn-primary"
+          style="background-color: teal;"
+        >
+          <option value="" disabled selected>Availability</option>
+          <option value="Available">Available</option>
+          <option value="Unavailable">Unavailable, make a reservation</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select
+          id="pricingDropdown"
+          class="btn btn-primary"
+          style="background-color: teal;"
+        >
+          <option value="" disabled selected>Pricing</option>
+          <option value="low_to_high">Low to High</option>
+          <option value="high_to_low">High to Low</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select
+          id="ratingsDropdown"
+          class="btn btn-primary"
+          style="background-color: teal;"
+        >
+          <option value="" disabled selected>Ratings</option>
+          <option value="1">1 star</option>
+          <option value="2">2 stars</option>
+          <option value="3">3 stars</option>
+          <option value="4">4 stars</option>
+          <option value="5">5 stars</option>
+        </select>
+      </div>
+      <div>
+        <button
+          id="resetButton"
+          class="btn btn-primary"
+          style="background-color: teal;"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+    <div class="flex-container"></div>
+    <div class="flex-item Audi" data-price="16" data-rating="4">
+      <a href="Audi_A6.html">
+        <img src="2017_audi_a6_angularfront.jpg" alt="Audi" />
+        <figcaption>2017 Audi A6</figcaption>
+        <figcaption style="font-weight: bold;">
+          $16 / hour
+        </figcaption>
+        <figcaption style="font-weight: bold; color: #32c832;">
+          Available
+        </figcaption>
+        <figcaption style="font-weight: bold;">
+          &#9733; &#9733; &#9733; &#9733;
+        </figcaption>
+      </a>
+    </div>
+    <script>
+      $(document).ready(function () {
+        // Define the container
+        const $flexContainer = $(".flex-container");
+        let originalOrder = null;
+        let isSorted = false;
+
+        // Store the original order of items when the page loads
+        originalOrder = $flexContainer.html();
+
+        // Add a change event listener to the "Brand" dropdown
+        $("#brandDropdown").change(function () {
+          const selectedBrand = $(this).val();
+
+          // Remove any existing empty placeholders
+          $(".empty").remove();
+
+          // Hide all flex containers
+          $(".flex-item").hide();
+
+          if (selectedBrand === "all") {
+            // Show all items when "All" is selected
+            $(".flex-item").show();
+          } else {
+            // Show items that match the selected brand
+            $(".flex-item." + selectedBrand).show();
+          }
+
+          // Calculate the number of items in each column
+          const itemsPerColumn = 3;
+          const $visibleItems = $(".flex-item:visible");
+          const itemCount = $visibleItems.length;
+
+          // Calculate the number of empty spaces needed within each column
+          const emptySpaces = itemsPerColumn - (itemCount % itemsPerColumn);
+
+          // Calculate the number of columns needed to accommodate the items
+          const columnsNeeded = Math.ceil(itemCount / itemsPerColumn);
+
+          // Add empty placeholders after each column
+          for (let i = 0; i < columnsNeeded * itemsPerColumn - itemCount; i++) {
+            $("<div class='flex-item empty'></div>").appendTo($flexContainer);
+          }
+        });
+
+        // Add a change event listener to the "Pricing" dropdown
+        $("#pricingDropdown").change(function () {
+          const selectedOption = $(this).val();
+          if (selectedOption === "low_to_high") {
+            sortItemsByPrice("asc"); // Sort by price from low to high
+          } else if (selectedOption === "high_to_low") {
+            sortItemsByPrice("desc"); // Sort by price from high to low
+          } else if (selectedOption === "all") {
+            // Reset to the original unsorted order when "Pricing" is clicked
+            $flexContainer.html(originalOrder);
+            isSorted = false;
+          }
+          // Calculate the number of items in each column
+          const itemsPerColumn = 3;
+          const $visibleItems = $(".flex-item:visible");
+          const itemCount = $visibleItems.length;
+
+          // Calculate the number of empty spaces needed within each column
+          const emptySpaces = itemsPerColumn - (itemCount % itemsPerColumn);
+
+          // Calculate the number of columns needed to accommodate the items
+          const columnsNeeded = Math.ceil(itemCount / itemsPerColumn);
+
+          // Add empty placeholders after each column
+          for (let i = 0; i < columnsNeeded * itemsPerColumn - itemCount; i++) {
+            $("<div class='flex-item empty'></div>").appendTo($flexContainer);
+          }
+        });
+
+        // Add a change event listener to the "Availability" dropdown
+        $("#availabilityDropdown").change(function () {
+          const selectedAvailability = $(this).val();
+          if (selectedAvailability === "Available") {
+            sortItemsByAvailability("Available");
+          } else if (selectedAvailability === "Unavailable") {
+            sortItemsByAvailability("Unavailable");
+          }
+          // Calculate the number of items in each column
+          const itemsPerColumn = 3;
+          const $visibleItems = $(".flex-item:visible");
+          const itemCount = $visibleItems.length;
+
+          // Calculate the number of empty spaces needed within each column
+          const emptySpaces = itemsPerColumn - (itemCount % itemsPerColumn);
+
+          // Calculate the number of columns needed to accommodate the items
+          const columnsNeeded = Math.ceil(itemCount / itemsPerColumn);
+
+          // Add empty placeholders after each column
+          for (let i = 0; i < columnsNeeded * itemsPerColumn - itemCount; i++) {
+            $("<div class='flex-item empty'></div>").appendTo($flexContainer);
+          }
+        });
+
+        // Add a change event listener to the "Ratings" dropdown
+        $("#ratingsDropdown").change(function () {
+          const selectedRating = $(this).val();
+          const selectedBrand = $("#brandDropdown").val();
+
+          if (selectedRating === "all" && selectedBrand !== "all") {
+            // Only filter by brand when "All" is not selected in the brand dropdown
+            filterItemsByBrand(selectedBrand);
+          } else if (selectedRating === "all" && selectedBrand === "all") {
+            resetItemsOrder();
+          } else {
+            filterItemsByBrandAndRating(selectedBrand, selectedRating);
+          }
+
+          // Calculate the number of items in each column
+          const itemsPerColumn = 3;
+          const $visibleItems = $(".flex-item:visible");
+          const itemCount = $visibleItems.length;
+
+          // Calculate the number of empty spaces needed within each column
+          const emptySpaces = itemsPerColumn - (itemCount % itemsPerColumn);
+
+          // Calculate the number of columns needed to accommodate the items
+          const columnsNeeded = Math.ceil(itemCount / itemsPerColumn);
+
+          // Add empty placeholders after each column
+          for (let i = 0; i < columnsNeeded * itemsPerColumn - itemCount; i++) {
+            $("<div class='flex-item empty'></div>").appendTo($flexContainer);
+          }
+        });
+        // Add a click event listener to the "Reset" button
+        $("#resetButton").click(function () {
+          // Reset all dropdowns to their default state
+          $("#brandDropdown").val("").trigger("change");
+          $("#availabilityDropdown").val("").trigger("change");
+          $("#pricingDropdown").val("").trigger("change");
+          $("#ratingsDropdown").val("").trigger("change");
+          // Restore the original order of items
+          $flexContainer.html(originalOrder);
+        });
+
+        function sortItemsByPrice(order) {
+          const $flexItems = $(".flex-item:visible");
+          const $items = $flexItems.toArray();
+
+          $items.sort(function (a, b) {
+            const priceA = parseFloat($(a).data("price"));
+            const priceB = parseFloat($(b).data("price"));
+
+            if (order === "asc") {
+              return priceA - priceB;
+            } else {
+              return priceB - priceA;
+            }
+          });
+
+          // Clear the container
+          $flexItems.detach();
+
+          // Append the sorted items back to the original container
+          $items.forEach(function (item) {
+            $flexContainer.append(item);
+          });
+        }
+
+        function sortItemsByAvailability(availability) {
+          const $flexItems = $(".flex-item:visible");
+          const $availableItems = $flexItems.filter(function () {
+            return $(this).find("figcaption:contains('Available')").length > 0;
+          });
+          const $unavailableItems = $flexItems.filter(function () {
+            return (
+              $(this).find("figcaption:contains('Unavailable')").length > 0
+            );
+          });
+
+          if (availability === "Available") {
+            $flexContainer.html($availableItems);
+            $flexContainer.append($unavailableItems);
+          } else if (availability === "Unavailable") {
+            $flexContainer.html($unavailableItems);
+            $flexContainer.append($availableItems);
+          }
+        }
+
+        // Function to filter items by brand
+        function filterItemsByBrand(brand) {
+          const $flexItems = $(".flex-item");
+
+          if (brand === "all") {
+            $flexItems.show();
+          } else {
+            $flexItems.hide();
+            $flexItems.filter(`.${brand}`).show();
+          }
+        }
+
+        // Function to filter items by brand and rating
+        function filterItemsByBrandAndRating(brand, rating) {
+          const $flexItems = $(`.flex-item.${brand}`);
+
+          if (rating === "all") {
+            $flexItems.show();
+          } else {
+            $flexItems.hide();
+            $flexItems
+              .filter(function () {
+                return parseInt($(this).data("rating")) === parseInt(rating);
+              })
+              .show();
+          }
+        }
+        function confirmLogout() {
+                var confirmation = confirm("Confirm logout ?");
+                if (confirmation) {
+                    window.location.href =
+                    "index.html";
+                }
+            }
+      });
+    </script>
+  </body>
+</html>
