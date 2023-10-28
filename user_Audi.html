@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Azoom car rental websites</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.cdnfonts.com/css/graphik-trial"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+      @import url("https://fonts.cdnfonts.com/css/graphik-trial");
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container-fluid {
+        margin: 0;
+      }
+      .navbar.navbar-default {
+        background-color: teal;
+        margin: 0;
+      }
+      .navbar-brand.navbar-brand {
+        /* Azoom website name */
+        color: white;
+        font-size: 20px;
+        font-family: "Graphik Wide Trial", sans-serif;
+      }
+      .navbar.navbar-default li a {
+        color: white;
+        font-size: 18px;
+      }
+      .navbar.navbar-default ul {
+        background-color: teal;
+      }
+      /* Additional styling for the logo */
+      .navbar-brand img {
+        max-width: 70px; /* Adjust the max-width as needed to make it smaller */
+        height: auto; /* Ensures proportional scaling */
+        display: inline-block;
+        margin-right: 5px; /* Adjust the margin as needed */
+        vertical-align: middle;
+      }
+      /* Style for the container of horizontal dropdowns */
+      .dropdown-container {
+        display: flex;
+        justify-content: center; /* Center align the content */
+        margin-top: 30px;
+      }
+
+      /* Style for individual dropdowns */
+      .dropdown {
+        margin-right: 10px; /* Adjust the spacing between dropdowns */
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown.dropdown-menu {
+        display: block;
+      }
+
+      /* Style for dropdown options */
+      .dropdown-menu a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-menu a:hover {
+        background-color: #ddd;
+      }
+      #selected_location {
+        text-align: center;
+        color: #008080;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      #sort_by {
+        text-align: center;
+        color: #008080;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+      * {
+        box-sizing: border-box;
+      }
+
+      .mySlides {
+        display: none;
+        width: 100%;
+  height: 100%;
+      }
+      .mySlides img {
+        width: 100%;
+  height: 100%;
+  object-fit: cover;
+      }
+
+      /* Slideshow container */
+      .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+      }
+
+      /* Next & previous buttons */
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+      }
+
+      /* Position the "next button" to the right */
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+
+      /* On hover, add a black background color with a little bit see-through */
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      /* Caption text */
+      .text {
+        color: #f2f2f2;
+        font-size: 18px;
+        padding: 8px 12px;
+        position: absolute;
+        bottom: 8px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+      }
+
+      .active,
+      .dot:hover {
+        background-color: #717171;
+      }
+
+      /* Fading animation */
+      .fade {
+        animation-name: fade;
+        animation-duration: 7s;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .carBrand {
+        margin-top: 20px;
+        font-size: 35px;
+        color: teal;
+        font-weight: bold;
+        text-align: center;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+      }
+
+      .availability {
+        font-size: 35px;
+        color: #32c832;
+        font-weight: bold;
+        text-align: center;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      /* Create two equal columns that floats next to each other */
+      .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+      }
+
+      /* Clear floats after the columns */
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      #About{
+        color:teal;
+        font-size: 28px;
+        font-weight: bold;
+        margin-left: 20px;
+        white-space: nowrap; /* Prevent text from wrapping */
+      }
+
+      .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+        box-sizing: border-box; /* Add this to include padding in width calculation */
+    }
+
+
+      .dropbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .dropbtn:hover, .dropbtn:focus {
+        background-color: 	#32CD32;
+      }
+
+      #myInput {
+        box-sizing: border-box;
+        background-position: 14px 12px;
+        background-repeat: no-repeat;
+        font-size: 16px;
+        padding: 14px 20px 12px 45px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+      }
+
+      #myInput:focus {outline: 2px solid #ddd;}
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        margin-left: 10px;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f6f6f6;
+        min-width: 230px;
+        overflow: auto;
+        border: 1px solid #ddd;
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown a:hover {background-color: #ddd;}
+
+      .show {display: block;}
+      .custom-button {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        height: 48px; /* Set the desired height for both buttons */
+      }
+      .custom-button2 {
+        border-color: white;
+        color: 	darkgreen;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        height: 48px; /* Set the desired height for both buttons */
+        margin-left:10px;
+        margin-top: 20px;
+        margin-right: 10px;
+
+      }
+
+      .custom-button:hover,
+      .custom-button:focus {
+        background-color: #32CD32;
+      }
+      .custom-button2:hover,
+      .custom-button2:focus {
+        background-color: rgb(112, 226, 112);
+      }
+      .confirm_button:hover,
+      .confirm_button:focus {
+        background-color: rgb(44, 163, 44);
+      }
+
+      #select_date{
+        margin-left:10px;
+        margin-top: 20px;
+      }
+      #select_time{
+        margin-left: 10px;
+        margin-top: 20px;
+      }
+      #datepicker{
+        margin-left:10px;
+      }
+      #timepicker{
+        margin-left:10px;
+      }
+      #returndatepicker{
+         margin-left: 10px;
+      }
+      
+      #returntimepicker{
+        margin-left: 10px;
+      }
+      * {
+  box-sizing: border-box;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+.col-25 {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+}
+
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+}
+
+.col-75 {
+  -ms-flex: 75%; /* IE10 */
+  flex: 75%;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+  padding: 0 16px;
+}
+
+.container {
+  background-color: #f2f2f2;
+  padding: 5px 20px 15px 20px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+input[type=text] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.icon-container {
+  margin-bottom: 20px;
+  padding: 7px 0;
+  font-size: 24px;
+}
+
+.btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  width: 100%;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+a {
+  color: #2196F3;
+}
+
+hr {
+  border: 1px solid lightgrey;
+}
+
+span.price {
+  float: right;
+  color: grey;
+}
+.col-50{
+  margin-left: 10px;
+}
+#checkbox{
+          margin-left: 10px;
+        }
+        .confirm_button{
+        background-color:rgb(0, 236, 0);
+        color: 	darkgreen;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        height: 48px; /* Set the desired height for both buttons */
+        margin-left:10px;
+        margin-top: 20px;
+        }
+        .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      /* On smaller screens, decrease text size */
+      @media only screen and (max-width: 800px) {
+        .prev,
+        .next
+        {
+          font-size: 11px;
+        }
+        .text {
+          font-size: 14px;
+        }
+        .carBrand {
+          font-size: 18px; /* Adjust the font size for smaller screens */
+        }
+
+        .availability {
+          font-size: 18px; /* Adjust the font size for smaller screens */
+        }
+        #companyName,
+        .navbar.navbar-default li a{ 
+          color: white;
+          font-size: 14px;
+        }
+        .navbar-brand img {
+          max-width: 45px; /* Adjust the max-width as needed to make it smaller */
+          height: auto; /* Ensures proportional scaling */
+          display: inline-block;
+          margin-right: 5px; /* Adjust the margin as needed */
+          vertical-align: middle;
+        }
+        #About{
+          color: teal;
+          font-size: 18px;
+          font-weight: bold;
+          margin-left: 10px;
+          white-space: normal; /* Allow text to wrap */
+        }
+        .column {
+            width: 100%; /* Make the columns take up the full width on smaller screens */
+        }
+        .column ul li {
+            font-size: 14px; /* Adjust the font size for smaller screens */
+        }
+        .dropdown{
+          margin-left: 10px;
+        }
+        #select_date{
+          margin-left: 10px;
+          margin-top: 10px;
+        }
+        #select_time{
+          margin-left: 10px;
+          margin-top: 10px;
+        }
+        .custom-button2{
+          align-content: center;
+        }
+        #datepicker{
+          margin-left: 10px;
+        }
+        #returndatepicker{
+          margin-left: 10px;
+        }
+        #timepicker{
+          margin-left: 10px;
+        }
+        #returntimepicker{
+          margin-left: 10px;
+        }
+        
+        .row {
+          display: block;
+        }
+        .col-25 {
+          margin-bottom: 20px;
+          margin-left: 10px;
+        }
+        #checkbox{
+          margin-left: 10px;
+        }
+
+      }
+      
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">
+            <img src="car_logo_white.png" alt="Azoom" /><span id="companyName">Azoom</span>
+          </a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="user_about.html">About</a></li>
+          <li><a href="user_pricing.html">Pricing</a></li>
+          <li><a href="user_contactUs.html">Contact Us</a></li>
+          <li><a href="Customer_Details.html">My Account</a></li>
+          <li><a href="index.html">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div><h3 id="selected_location">Location selected: None</h3></div>
+    <div class="slideshow-container">
+      <div class="mySlides fade">
+        <img src="2017_audi_a6_angularfront.jpg" style="width: 100%;" />
+        <div class="text" style="color: black;">Front</div>
+      </div>
+
+      <div class="mySlides fade">
+        <img
+          src="2017-audi-a6-prestige-sedan-angular-rear.png"
+          style="width: 100%;"
+        />
+        <div class="text" style="color: black;">Rear</div>
+      </div>
+
+      <div class="mySlides fade">
+        <img src="2017-audi-a6-prestige-sedan-doors.png" style="width: 100%;" />
+        <div class="text" style="color: black;"">Doors</div>
+      </div>
+
+      <div class="mySlides fade">
+        <img
+          src="2017-audi-a6-prestige-sedan-dashboard.png"
+          style="width: 100%;"
+        />
+        <div class="text">Dashboard</div>
+      </div>
+
+      <div class="mySlides fade">
+        <img
+          src="2017-audi-a6-prestige-sedan-front-seat.png"
+          style="width: 100%;"
+        />
+        <div class="text">Front Seat</div>
+      </div>
+
+      <div class="mySlides fade">
+        <img
+          src="2017-audi-a6-prestige-sedan-rear-seat.png"
+          style="width: 100%;"
+        />
+        <div class="text">Rear Seat</div>
+      </div>
+
+      <div class="mySlides fade">
+        <img
+          src="2017-audi-a6-prestige-sedan-steering-wheel.png"
+          style="width: 100%;"
+        />
+        <div class="text">Steering wheel</div>
+      </div>
+
+      <div class="mySlides fade">
+        <img
+          src="2017-audi-a6-prestige-sedan-instrument-cluster.png"
+          style="width: 100%;"
+        />
+        <div class="text">Instrument cover</div>
+      </div>
+
+      <div class="mySlides fade">
+        <img
+          src="2017-audi-a6-prestige-sedan-gear-shift.jpg"
+          style="width: 100%;"
+        />
+        <div class="text">Gear shift</div>
+      </div>
+      <div class="mySlides fade">
+        <img
+          src="2017-audi-a6-prestige-sedan-trunk.png"
+          style="width: 100%;"
+        />
+        <div class="text" style="color: black;">Trunk</div>
+      </div>
+
+      <a class="prev" onclick="plusSlides(-1)">❮</a>
+      <a class="next" onclick="plusSlides(1)">❯</a>
+    </div>
+    <br />
+
+    <div style="text-align: center;">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+      <span class="dot" onclick="currentSlide(4)"></span>
+      <span class="dot" onclick="currentSlide(5)"></span>
+      <span class="dot" onclick="currentSlide(6)"></span>
+      <span class="dot" onclick="currentSlide(7)"></span>
+      <span class="dot" onclick="currentSlide(8)"></span>
+      <span class="dot" onclick="currentSlide(9)"></span>
+      <span class="dot" onclick="currentSlide(10)"></span>
+    </div>
+
+    <script>
+      let slideIndex = 0;
+      showSlides(slideIndex);
+
+      function plusSlides(n) {
+        showSlides((slideIndex += n));
+      }
+
+      function currentSlide(n) {
+        showSlides((slideIndex = n));
+      }
+
+      function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {
+          slideIndex = 1;
+        }
+        if (n < 1) {
+          slideIndex = slides.length;
+        }
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+      }
+      // Function to automatically advance the slides
+      function autoSlide() {
+        plusSlides(1);
+        setTimeout(autoSlide, 7000); // Change slide every 5 seconds (5000 milliseconds)
+      }
+
+      autoSlide(); // Start the automatic slideshow
+    </script>
+    <div class="carBrand" >
+      2017 Audi A6
+    </div>
+    <div class="availability">
+    Available
+    </div>
+    <div class="row">
+        <div class="column" style="background-color:#C1E1C1;">
+          <p><span id="About">About 2017 Audi A6</span></p>
+          <ul>
+          <li>5 2017-audi-a6-prestige-sedan-steering-wheel</li>
+          <li>24 / 34 mpg</li>
+          <li>252 - 340 hp</li>
+          <li>360-degree exterior camera system</li>
+          <li>Bluetooth</li>
+          <li>Two touchscreens in the centre of the dashboard</li>
+          </ul>
+          <p><span id="About">Key Rules</span></p>
+          <ul>
+          <li>No smoking</li>
+          </ul>
+          <p><span id="About">Mileage allowed per day</span></p>
+          <ul>
+          <li>125km</li>
+          </ul>
+          <p><span id="About">Reviews</span></p>
+        </div>
+        <div class="column" style="background-color:#9FE2BF;">
+          <p><span id="About">Reserve 2017 Audi A6</span></p>
+          <div class="dropdown">
+              <button class="dropbtn custom-button" onclick="myFunction()">Search a location..</button>
+              <div id="myDropdown" class="dropdown-content">
+                <input type="text" id="myInput" onkeyup="filterFunction()">
+                <a href="#" onclick="selectLocation('Choa Chu Kang, Singapore')">Choa Chu Kang, Singapore</a>
+                <a href="#" onclick="selectLocation('Choa Chu Kang Avenue 4, Choa Chua Kang MRT Station(NS4),Singapore')">Choa Chu Kang Avenue 4, Choa Chua Kang MRT Station(NS4),Singapore</a>
+                <a href="#" onclick="selectLocation('Bukit Batok')">Bukit Batok</a>
+              </div>
+            </div>
+            
+            <div id="select_date">Select a rental date:</div>
+            <form action="/action_page.php">
+              <input type="text" id="datepicker" name="date_selection"placeholder="Click to select a date">
+            </form>
+
+            <div id="select_time">Select a rental time:</div>
+            <a href="#" data-toggle="tooltip" data-placement="right" title="Duration less than an hour will not be approved" style="font-size: 18px;">information</a>
+
+            <form action="/action_page.php">
+              <input type="time" id="timepicker" name="time_picker">
+            </form>
+
+            <div id="select_date">Select a return date:</div>
+            <form action="/action_page.php">
+              <input type="text" id="returndatepicker" name="returndate_selection" placeholder="Click to select a date">
+            </form>
+
+            <div id="select_time">Select a return time:</div> 
+            <a href="#" data-toggle="tooltip" data-placement="right" title="Please be on time. Late return will result in extra charges" style="font-size: 18px;">information</a>
+            <form action="/action_page.php">
+              <input type="time" id="returntimepicker" name="time_picker">
+            </form>
+
+            
+                  <form action="/action_page.php">
+                  
+                    <div class="row">
+                      <div class="col-50">
+                        <h3>Personal details</h3>
+                        <a href="#" data-toggle="tooltip" data-placement="right" title="A confirmation will be send to your Email" style="font-size: 18px;">information</a>
+                        <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                        <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
+                        <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                        <input type="text" id="email" name="email" placeholder="john@example.com">
+          
+                        <h3>Payment</h3>
+                        <label for="fname">Accepted Cards</label>
+                        <div class="icon-container">
+                          <i class="fa fa-cc-visa" style="color:navy;"></i>
+                          <i class="fa fa-cc-amex" style="color:blue;"></i>
+                          <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                          <i class="fa fa-cc-discover" style="color:orange;"></i>
+                        </div>
+                        <a href="#" data-toggle="tooltip" data-placement="right" title="Credit Card number is needed to make a reservation" style="font-size: 18px;">information</a>
+                        <label for="cname">Name on Card</label>
+                        <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+                        <label for="ccnum">Credit card number</label>
+                        <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+                        <label for="expmonth">Exp Month</label>
+                        <input type="text" id="expmonth" name="expmonth" placeholder="September">
+                        <div class="row">
+                          <div class="col-50">
+                            <label for="expyear">Exp Year</label>
+                            <input style="margin-left:-10px;"  type="text" id="expyear" name="expyear" placeholder="2018">
+                          </div>
+                          <div class="col-50">
+                            <label for="cvv">CVV</label>
+                            <input style="margin-left:-10px;" type="text" id="cvv" name="cvv" placeholder="352">
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+                    <label>
+                      <input id="checkbox" type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+                    </label>
+                  </form>
+
+
+                  <div class="button-container">
+                      <button class="custom-button2" onclick="resetForm()">Reset</button>
+                      <button class="confirm_button" onclick="secondConfirmBox()">Submit</button>
+                    </div>
+
+          </div>
+          </div>
+        </div>
+      </div>
+      <script>
+          /* When the user clicks on the button,
+          toggle between hiding and showing the dropdown content */
+            // Function to handle location selection and reset
+  function toggleLocationSelection(locationName) {
+    const dropdownButton = document.querySelector('.dropbtn');
+    if (dropdownButton.textContent === locationName) {
+      // If the selected location is the same as the current location, reset it
+      dropdownButton.textContent = 'Search a location..';
+      document.getElementById('selected_location').textContent = 'Location selected: None';
+      document.getElementById('myInput').value = '';
+    } else {
+      // If a new location is selected, update the text
+      dropdownButton.textContent = locationName;
+      document.getElementById('selected_location').textContent = 'Location selected: ' + locationName;
+    }
+    document.getElementById("myDropdown").classList.remove("show");
+  }
+
+  // When the user clicks on the button, toggle between hiding and showing the dropdown content
+  function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
+          // Function to select a location and update the text
+          function selectLocation(locationName) {
+          const dropdownButton = document.querySelector('.dropbtn');
+          dropdownButton.textContent = locationName;
+          document.getElementById("selected_location").textContent = "Location selected: " + locationName;
+          document.getElementById("myDropdown").classList.remove("show");
+          }
+          // Function to reset the form fields
+      function resetForm() {
+        document.getElementById("fname").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("cname").value = "";
+        document.getElementById("ccnum").value = "";
+        document.getElementById("expmonth").value = "";
+        document.getElementById("expyear").value = "";
+        document.getElementById("cvv").value = "";
+        document.getElementById("checkbox").checked = true;
+        document.getElementById("returndatepicker").value = "";
+        document.getElementById("returntimepicker").value = "";
+      }
+              
+    </script>
+    <script>
+      $(function () {
+          // Define an array of disabled dates in 'yy-mm-dd' format
+          var disabledDates = ["2023-10-01","2023-10-02","2023-10-03","2023-10-04","2023-10-05","2023-10-06","2023-10-07","2023-10-08","2023-10-09","2023-10-10","2023-10-11","2023-10-12","2023-10-13","2023-10-14","2023-10-15", "2023-10-16","2023-10-17","2023-10-17", "2023-10-18", "2023-10-19",  "2023-10-20", "2023-10-21", "2023-10-22", "2023-10-23", "2023-10-24", "2023-10-25", "2023-10-26", "2023-10-27", "2023-10-31", "2023-11-02", "2023-11-03"];
+      
+          // Initialize the date picker
+          $("#datepicker").datepicker({
+              dateFormat: 'yy-mm-dd',
+              beforeShowDay: function (date) {
+                  var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                  // Check if the date is in the disabledDates array
+                  if ($.inArray(formattedDate, disabledDates) != -1) {
+                      return [false];
+                  }
+                  return [true];
+              }
+          });
+      });
+      </script>
+      <script>
+          $(function () {     
+            // Define an array of disabled dates in 'yy-mm-dd' format
+          var disabledDates2 = []
+              // Initialize the date picker
+              $("#returndatepicker").datepicker({
+                  dateFormat: 'yy-mm-dd',
+                  beforeShowDay: function (date) {
+                      var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                      // Check if the date is in the disabledDates array
+                      if ($.inArray(formattedDate, disabledDates2) != -1) {
+                          return [false];
+                      }
+                      return [true];
+                  }
+              });
+          });
+          </script>
+
+      <script>
+          // Function to handle the second confirmation box
+            function secondConfirmBox() {
+            var secondConfirmation = confirm("Are you sure you want to make a reservation?");
+            if (secondConfirmation) {
+                // Handle the action when the user clicks "Ok" in the second confirm box
+                // Clear all input fields when the user clicks "Ok"
+                
+                alert("You have to login or create an account in order to make a reservation. Clicking Ok will redirect you to login page");
+                //clearInputFields();
+                // Redirect to another HTML page (change 'your_page.html' to the desired URL)
+                window.location.href = 'User_create_or_login_account.html';
+                
+            } else {
+                // Handle the action when the user closes the second confirm box
+                alert("Reservation not confirmed.");
+            }
+        }
+        function clearInputFields() {
+        // Clear the input fields
+        document.getElementById("fname").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("cname").value = "";
+        document.getElementById("ccnum").value = "";
+        document.getElementById("expmonth").value = "";
+        document.getElementById("expyear").value = "";
+        document.getElementById("cvv").value = "";
+        // Clear the date and time fields
+        document.getElementById("datepicker").value = "";
+        document.getElementById("timepicker").value = "";
+        document.getElementById("returndatepicker").value = "";
+        document.getElementById("returntimepicker").value = "";
+
+      }
+        </script>
+        <script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();   
+            });
+            </script>
+      
+  </body>
+</html>
