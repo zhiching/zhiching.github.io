@@ -133,6 +133,8 @@
         <div class="container" style="background-color: #f1f1f1;">
           <button
             type="button"
+            onclick="goToLoginPage()"
+            class="cancelbtn"
             onclick="document.getElementById('id01').style.display='none'"
             class="cancelbtn"
           >
@@ -149,12 +151,17 @@
         window.location.href =
           "After_Customer_Created_N_Logged_into_Account.html";
       }
+      function goToLoginPage() {
+        window.location.href = "User_create_or_login_account.html";
+        document.getElementById('id01').style.display = 'none'; // Close the modal
+      }
 
       // When the user clicks anywhere outside of the modal, close it
       window.onclick = function (event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
+        
       };
     </script>
   </body>
